@@ -1,16 +1,18 @@
 import './App.css';
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 import Home from "./pages/Home"
-import Stocks from "./pages/Stocks";
-import Portfolio from "./pages/Portfolio";
+import Stocks from "./pages/game/Stocks";
+import Portfolio from "./pages/game/Portfolio";
+import Dashboard from "./pages/game/Dashboard";
 
 function App() {
   return (
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Home />}/>
           <Route path='/stocks' element={<Stocks />}/>
           <Route path='/portfolio' element={<Portfolio />}/>
+          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/' element={<Home />}/>
         </Routes>
       </BrowserRouter>
   );
