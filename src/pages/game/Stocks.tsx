@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Link, NavLink} from "react-router-dom";
 
 interface Stock {
@@ -8,17 +8,22 @@ interface Stock {
 }
 
 function Stocks() {
-    const Options: Array<Stock> = [
-      {name: 'Apple Inc.', ticker: 'AAPL', id: 1},
-      {name: 'Nvidia Corporation', ticker: 'NVDA', id: 2},
-      {name: 'Microsoft Corporation', ticker: 'MSFT', id: 3},
-      {name: 'Amazon.com, Inc', ticker: 'AMZN', id: 4},
-      {name: 'Alphabet Inc.', ticker: 'GOOGL', id: 5},
-      {name: 'Meta Platforms, Inc.', ticker: 'META', id: 6},
-      {name: 'Tesla, Inc', ticker: 'TSLA', id: 7}
-    ]
+  const [options, setOptions] = useState<Array<Stock>>()
 
-        console.log(FetchStockPrices(Options))
+  useEffect(() => {
+    fetch(`https://api.polygon.io/v3/reference/tickers?market=stocks&active=true&order=asc&limit=1000&sort=market&apiKey=${process.env.REACT_APP_POLYGONIO_API_KEY}`)
+      .then(response => response.json())
+      .then(json => {
+        let temp: Array<Stock> = [];
+        for(let i = 0; i < 1000; i++){
+          temp.push({name: json.results[i].name, ticker: json.results[i].ticker, id: i});
+        }
+        setOptions(temp);
+      })
+        .catch(error => console.error(error))
+  },[]);
+
+
   return(
       <>
         <NavLink to='/dashboard'><button>Dashboard</button></NavLink>
@@ -31,16 +36,15 @@ function Stocks() {
             <tr>
               <th>Name</th>
               <th>Ticker</th>
-              <th>Current Price</th>
             </tr>
           </thead>
           <tbody>
-          {Options.map((stock) => {
+          {options?.map((stock) => {
             return(
                 <tr key={stock.id}>
                   <td>{stock.name}</td>
                   <td>{stock.ticker}</td>
-                  <td>{}</td>
+                  <td><button>Info</button></td>
                 </tr>
             )
           })}
@@ -48,18 +52,6 @@ function Stocks() {
         </table>
       </>
   )
-}
-
-function FetchStockPrices(Stocks: Array<Stock>) {
-  let StockPrices: Array<number> = []
-  for(let i = 0; i < Stocks.length; i++){
-    fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${Stocks[i].ticker}&interval=5min&apikey=${process.env.REACT_APP_ALPHA_ADVANTAGE_API_KEY}`)
-        .then(response => response.json())
-        .then(json => console.log(json))t
-        .catch(error => console.error(error))
-  }
-
-  return(0)
 }
 
 export default Stocks
