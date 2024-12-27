@@ -13,7 +13,7 @@ function Home() {
             However, to do so, you have to first prove yourself. Unsure of a good way to do so, you come up with the idea of
             "competing" against your fellow workers to show your boss that you are WORTHY of a promotion...
           </p>
-          <NavLink to='/dashboard'><button>Start Game</button></NavLink>
+          <NavLink to='/game'><button>Start Game</button></NavLink>
         </div>
       </>
   )

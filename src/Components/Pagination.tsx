@@ -11,37 +11,15 @@ function Pagination(Props: {history: Array<string>, currPageNum: number, paginat
   if (Props.history.at(Props.currPageNum + 1) === undefined) {
     nextValid = false;
   }
-  function goNext(){
-    if(nextValid) {
-      return(
-          <>
-            <button className='page-link' onClick={
-              () => {
-                Props.paginate(Props.history[Props.currPageNum + 1], Props.currPageNum + 1)
-              }
-            }>Next</button>
-          </>
-      )
-    }
-  }
 
-  function goPrevious() {
-    if(prevValid) {
-      return(
-          <>
-            <button className='page-link' onClick={
-              () => {
-                Props.paginate(Props.history[Props.currPageNum - 1], Props.currPageNum - 1)
-              }
-            }>Previous</button>
-          </>
-      )
-    }
-  }
   return(
       <div className='pagination justify-content-md-center'>
-        {goPrevious()}
-        {goNext()}
+        <button disabled={!prevValid} onClick={
+          () => {Props.paginate(Props.history[Props.currPageNum - 1], Props.currPageNum - 1)}
+        }>Previous</button>
+        <button disabled={!nextValid} onClick={
+          () => {Props.paginate(Props.history[Props.currPageNum + 1], Props.currPageNum + 1)}
+        }>Next</button>
       </div>
   )
 }
