@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {NavLink} from "react-router-dom";
+import Pagination from "../../Components/Pagination";
 import './Stocks.css';
 
 interface Stock {
@@ -15,10 +16,9 @@ function Stocks() {
   const [options, setOptions] = useState<Array<Stock>>();
   const [loading, setLoading] = useState(false);
   const [currentPageNum, setCurrentPageNum] = useState(0);
-  const [stocksPerPage, setStocksPerPage] = useState(10);
+  const [stocksPerPage, setStocksPerPage] = useState(25);
   const [currentPage, setCurrentPage] = useState(`https://api.polygon.io/v3/reference/tickers?market=stocks&active=true&limit=${stocksPerPage}&apiKey=${process.env.REACT_APP_POLYGONIO_API_KEY}`)
   const [history, setHistory] = useState<Array<string>>([`https://api.polygon.io/v3/reference/tickers?market=stocks&active=true&limit=${stocksPerPage}&apiKey=${process.env.REACT_APP_POLYGONIO_API_KEY}`])
-
 
   useEffect(() => {
     setLoading(true);
@@ -38,47 +38,67 @@ function Stocks() {
                 id: json.results[i].ticker});
             }
             setOptions(temp);
-            history.push(json.next_url + `&apiKey=${process.env.SKsdbJqzL0Ehik47QA4ykN2Hh4Kk1PUO}`); // add next url
+            history.push(json.next_url + `&apiKey=${process.env.REACT_APP_POLYGONIO_API_KEY}`); // add next url
             setHistory(history);
+            console.log(json.next_url + `&apiKey=${process.env.REACT_APP_POLYGONIO_API_KEY}`)
           })
           .catch(error => console.error(error))
       setLoading(false);
     };
     fetchStocks();
-  }, []);
+  }, [currentPageNum, stocksPerPage]);
 
+  const paganate = (currentPage: string, currentPageNum: number) => {
+    setCurrentPageNum(currentPageNum)
+    setCurrentPage(currentPage);
+  }
+/*
+  const perPageChange = (event: React.ChangeEvent<HTMLSelectElement>) =>{
+    setCurrentPageNum(Number(event.target.value));
+    let tempHistory = history.at(0)
+  }*/
 
   return(
       <>
-        <NavLink to='/dashboard'><button>Dashboard</button></NavLink>
-        <NavLink to='/stocks'><button>Stocks</button></NavLink>
-        <NavLink to='/portfolio'><button>Portfolio</button></NavLink>
-        <NavLink to='/'><button>Give Up</button></NavLink>
-        <div>Stocks</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Ticker</th>
-              <th>Currency</th>
-              <th>Market</th>
-              <th>Exchange</th>
-            </tr>
-          </thead>
-          <tbody>
-          {options?.map((stock) => {
-            return(
-                <tr key={stock.id}>
-                  <td>{stock.name}</td>
-                  <td>{stock.ticker}</td>
-                  <td>{stock.currency}</td>
-                  <td>{stock.market}</td>
-                  <td>{stock.exchange}</td>
-                </tr>
-            )
-          })}
-          </tbody>
-        </table>
+        <div className='container mx-auto'>
+          <NavLink to='/dashboard'><button>Dashboard</button></NavLink>
+          <NavLink to='/stocks'><button>Stocks</button></NavLink>
+          <NavLink to='/portfolio'><button>Portfolio</button></NavLink>
+          <NavLink to='/'><button>Give Up</button></NavLink>
+        </div>
+        <div className='container'>
+          <label>STOCKS</label>
+          <table className="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Ticker</th>
+                <th>Currency</th>
+                <th>Market</th>
+                <th>Exchange</th>
+              </tr>
+            </thead>
+            <tbody>
+            {options?.map((stock) => {
+              return(
+                  <tr key={stock.id}>
+                    <td>{stock.name}</td>
+                    <td>{stock.ticker}</td>
+                    <td>{stock.currency}</td>
+                    <td>{stock.market}</td>
+                    <td>{stock.exchange}</td>
+                  </tr>
+              )
+            })}
+            <Pagination history={history} currPageNum={currentPageNum} paginate={paganate}/>
+            </tbody>
+          </table>
+          <select value={stocksPerPage} onChange={() => {}}>
+            <option value={10}>10</option>
+            <option value={25}>25</option>
+            <option value={50}>50</option>
+          </select>
+        </div>
       </>
   )
 }
