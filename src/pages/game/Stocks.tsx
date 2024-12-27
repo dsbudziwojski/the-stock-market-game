@@ -82,7 +82,7 @@ function Stocks() {
             {options?.map((stock) => {
               return(
                   <tr key={stock.id}>
-                    <td>{stock.name}</td>
+                    <td><NavLink to={`/stocks/${stock.id}`}>{stock.name}</NavLink></td>
                     <td>{stock.ticker}</td>
                     <td>{stock.currency}</td>
                     <td>{stock.market}</td>
