@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {NavLink} from "react-router-dom";
 import Pagination from "../../Components/Pagination";
 import './Stocks.css';
+import {GameProps} from "../../types";
 
 interface Stock {
   name: string;
@@ -12,7 +13,7 @@ interface Stock {
   id: string;
 }
 
-function Stocks() {
+function Stocks(props: GameProps) {
   const [options, setOptions] = useState<Array<Stock>>();
   const [loading, setLoading] = useState(false);
   const [currentPageNum, setCurrentPageNum] = useState(0);
@@ -52,11 +53,6 @@ function Stocks() {
     setCurrentPageNum(currentPageNum)
     setCurrentPage(currentPage);
   }
-/*
-  const perPageChange = (event: React.ChangeEvent<HTMLSelectElement>) =>{
-    setCurrentPageNum(Number(event.target.value));
-    let tempHistory = history.at(0)
-  }*/
 
   return(
       <>

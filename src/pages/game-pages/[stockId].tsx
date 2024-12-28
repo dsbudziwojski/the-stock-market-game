@@ -1,34 +1,17 @@
 import React, {useState, useEffect} from 'react'
 import {NavLink, useParams} from "react-router-dom";
+import {GameProps, Stock} from "../../types";
 
-interface Stock {
-  afterHours: number,
-  close: number,
-  date: string,
-  high: number,
-  low: number,
-  open: number,
-  preMarket: number,
-  volume: number
-}
-
-function StockPage() {
+function StockPage(props: GameProps) {
   let params = useParams();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<Stock>();
-
-  // getting today's
-
-  const date = new Date()
-  date.setDate(date.getDate()-1)
-  const yestDate = date.toJSON().slice(0, 10);
-  console.log(yestDate);
 
   useEffect(() => {
     setLoading(true);
     const fetchData = async () => {
       setLoading(true);
-      await fetch(`https://api.polygon.io/v1/open-close/${params.stockId}/${yestDate}?adjusted=true&apiKey=${process.env.REACT_APP_POLYGONIO_API_KEY}`)
+      await fetch(`https://api.polygon.io/v1/open-close/${params.stockId}/${props.gameState.date}?adjusted=true&apiKey=${process.env.REACT_APP_POLYGONIO_API_KEY}`)
           .then(response => response.json())
           .then(json => {
               setData({

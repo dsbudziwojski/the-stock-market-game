@@ -9,8 +9,6 @@ import Game from "./pages/Game";
 import {useState} from "react";
 import {GameInfo} from "./types";
 
-
-
 function App() {
   const gameDate = new Date(2024, 1, 1).toJSON().slice(0, 10);
   const [gameState, setGameState] = useState<GameInfo>({money: 100000, date: gameDate, portfolio:[]})
@@ -19,10 +17,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/game' element={<Game gameState={gameState} setGameState={setGameState}/>}/>
-          <Route path='/game/stocks' element={<Stocks />}/>
-          <Route path='/game/portfolio' element={<Portfolio />}/>
-          <Route path='/game/dashboard' element={<Dashboard />} />
-          <Route path='/game/stocks/:stockId' element={<StockPage />}/>
+          <Route path='/game/stocks' element={<Stocks gameState={gameState} setGameState={setGameState}/>}/>
+          <Route path='/game/portfolio' element={<Portfolio gameState={gameState} setGameState={setGameState}/>}/>
+          <Route path='/game/dashboard' element={<Dashboard gameState={gameState} setGameState={setGameState}/>} />
+          <Route path='/game/stocks/:stockId' element={<StockPage gameState={gameState} setGameState={setGameState}/>}/>
           <Route path='/' element={<Home />}/>
         </Routes>
       </BrowserRouter>

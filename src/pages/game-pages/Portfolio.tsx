@@ -1,7 +1,8 @@
 import React from 'react'
 import {NavLink} from "react-router-dom";
+import {GameProps} from "../../types";
 
-function Portfolio() {
+function Portfolio(props: GameProps) {
   return(
       <>
         <div className='container mx-auto'>
