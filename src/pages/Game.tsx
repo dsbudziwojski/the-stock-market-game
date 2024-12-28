@@ -1,15 +1,12 @@
 import React, {useState} from "react";
+import {NavLink} from "react-router-dom";
+import {GameProps} from "../types";
 
-function Game() {
-  const [money, setMoney] = useState(100000);
+
+function Game(props: GameProps) {
 
   const settingDifficulty = (amount: number) =>{
-    setMoney(amount);
-    return(
-        <div>
-          {`You have ${amount} money`}
-        </div>
-    )
+    props.setGameState({...props.gameState, money: amount})
   }
 
   return(
@@ -25,6 +22,8 @@ function Game() {
         <button onClick={()=>{
           settingDifficulty(50000);
         }}>Hard</button>
+        <div>You currently have ${props.gameState.money}</div>
+        <NavLink to="/game/dashboard"><button>I am ready</button></NavLink>
       </>
   )
 }
