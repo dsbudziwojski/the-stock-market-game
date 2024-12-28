@@ -78,7 +78,7 @@ function Stocks(props: GameProps) {
             {options?.map((stock) => {
               return(
                   <tr key={stock.id}>
-                    <td><NavLink to={`/stocks/${stock.id}`}>{stock.name}</NavLink></td>
+                    <td><NavLink to={`/game/stocks/${stock.id}`}>{stock.name}</NavLink></td>
                     <td>{stock.ticker}</td>
                     <td>{stock.currency}</td>
                     <td>{stock.market}</td>

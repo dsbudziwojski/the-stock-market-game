@@ -14,6 +14,7 @@ function StockPage(props: GameProps) {
       await fetch(`https://api.polygon.io/v1/open-close/${params.stockId}/${props.gameState.date}?adjusted=true&apiKey=${process.env.REACT_APP_POLYGONIO_API_KEY}`)
           .then(response => response.json())
           .then(json => {
+              console.log(json);
               setData({
                 afterHours: json.afterHours,
                 close: json.close,
@@ -30,6 +31,10 @@ function StockPage(props: GameProps) {
     };
     fetchData();
   }, []);
+
+  function buyStock(formData: number){
+
+  }
 
   console.log(data);
   return(
@@ -51,7 +56,10 @@ function StockPage(props: GameProps) {
           <p>Volume: {data?.volume}</p>
         </div>
         <div>
-          {/* TODO */}
+          <form>
+            <input name="query" type="number"/>
+            <button type="submit">Buy</button>
+          </form>
         </div>
       </>
   )
