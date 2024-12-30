@@ -2,19 +2,10 @@ import React, {useEffect, useState} from 'react'
 import {NavLink} from "react-router-dom";
 import Pagination from "../../Components/Pagination";
 import './Stocks.css';
-import {GameProps} from "../../types";
-
-interface Stock {
-  name: string;
-  ticker: string;
-  currency: string;
-  market: string;
-  exchange: string;
-  id: string;
-}
+import {GameProps, StockInfo} from "../../types";
 
 function Stocks(props: GameProps) {
-  const [options, setOptions] = useState<Array<Stock>>();
+  const [options, setOptions] = useState<Array<StockInfo>>();
   const [loading, setLoading] = useState(false);
   const [currentPageNum, setCurrentPageNum] = useState(0);
   const [stocksPerPage, setStocksPerPage] = useState(25);
@@ -28,7 +19,7 @@ function Stocks(props: GameProps) {
       fetch(currentPage)
           .then(response => response.json())
           .then(json => {
-            let temp: Array<Stock> = [];
+            let temp: Array<StockInfo> = [];
             for(let i = 0; i < stocksPerPage; i++){
               temp.push({
                 name: json.results[i].name,
@@ -41,7 +32,6 @@ function Stocks(props: GameProps) {
             setOptions(temp);
             history.push(json.next_url + `&apiKey=${process.env.REACT_APP_POLYGONIO_API_KEY}`); // add next url
             setHistory(history);
-            console.log(json.next_url + `&apiKey=${process.env.REACT_APP_POLYGONIO_API_KEY}`)
           })
           .catch(error => console.error(error))
       setLoading(false);

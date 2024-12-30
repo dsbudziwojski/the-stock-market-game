@@ -19,3 +19,12 @@ export interface Stock {
   preMarket: number,
   volume: number
 }
+
+export interface StockInfo {
+  name: string;
+  ticker: string;
+  currency: string;
+  market: string;
+  exchange: string;
+  id: string;
+}

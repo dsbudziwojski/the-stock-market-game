@@ -5,7 +5,17 @@ import {GameProps, Stock} from "../../types";
 function StockPage(props: GameProps) {
   let params = useParams();
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<Stock>();
+  const [data, setData] = useState<Stock>({
+    afterHours: 0,
+    close: 0,
+    date: "N/a",
+    high: 0,
+    low: 0,
+    open: 0,
+    preMarket: 0,
+    volume: 0
+  });
+  const [numToBuy, setNumToBuy] = useState(0);
 
   useEffect(() => {
     setLoading(true);
@@ -14,7 +24,6 @@ function StockPage(props: GameProps) {
       await fetch(`https://api.polygon.io/v1/open-close/${params.stockId}/${props.gameState.date}?adjusted=true&apiKey=${process.env.REACT_APP_POLYGONIO_API_KEY}`)
           .then(response => response.json())
           .then(json => {
-              console.log(json);
               setData({
                 afterHours: json.afterHours,
                 close: json.close,
@@ -32,11 +41,19 @@ function StockPage(props: GameProps) {
     fetchData();
   }, []);
 
-  function buyStock(formData: number){
-
+  function buyStock(numToBuy: number){
+    // check if the data is not in default state
+    if(data.date === "N/a"){
+      alert("Invalid Request")
+    } else{
+       const curMoney = props.gameState.money - numToBuy * data?.close;
+       const curPortfolio = props.gameState.portfolio
+       curPortfolio.push({name: "", amount:numToBuy , buyPrice: data?.close})
+       props.setGameState({...props.gameState, money: curMoney, portfolio: curPortfolio})
+    }
+    console.log(numToBuy);
   }
-
-  console.log(data);
+  console.log(props.gameState.portfolio)
   return(
       <>
         <div className='container mx-auto'>
@@ -56,8 +73,16 @@ function StockPage(props: GameProps) {
           <p>Volume: {data?.volume}</p>
         </div>
         <div>
-          <form>
-            <input name="query" type="number"/>
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            buyStock(numToBuy);
+          }}>
+            <input type="number" min={0} onChange={
+              (e) => {
+                setNumToBuy(Number(e.target.value));
+                console.log(e.target.value)
+              }
+            }/>
             <button type="submit">Buy</button>
           </form>
         </div>

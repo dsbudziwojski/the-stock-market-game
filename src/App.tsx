@@ -11,7 +11,6 @@ import {GameInfo} from "./types";
 
 function App() {
   const gameDate = new Date(2024, 1, 1).toJSON().slice(0, 10);
-  console.log(gameDate)
   const [gameState, setGameState] = useState<GameInfo>({money: 100000, date: gameDate, portfolio:[]})
 
   return (
