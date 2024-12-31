@@ -46,13 +46,13 @@ function StockPage(props: GameProps) {
     if(data.date === "N/a"){
       alert("Invalid Request")
     } else{
-      if(numToBuy * data?.close < props.gameState.money){
+      if(numToBuy > 0 && numToBuy * data?.close < props.gameState.money){
         const curMoney = props.gameState.money - numToBuy * data?.close;
         const curPortfolio = props.gameState.portfolio
         curPortfolio.push({name: "", amount:numToBuy , buyPrice: data?.close})
         props.setGameState({...props.gameState, money: curMoney, portfolio: curPortfolio})
       } else{
-        console.log("Invalid Amount of Money")
+        console.log("Invalid Amount of Money / 0 is not a valid input")
       }
     }
   }
