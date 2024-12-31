@@ -32,8 +32,4 @@ function App() {
   );
 }
 
-function Layout(){
-
-}
-
 export default App;

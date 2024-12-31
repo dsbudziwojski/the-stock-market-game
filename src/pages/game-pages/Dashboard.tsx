@@ -3,6 +3,9 @@ import {NavLink} from "react-router-dom";
 import {GameProps} from "../../types";
 
 function Dashboard(props: GameProps){
+  function nextDay() {
+    //TODO
+  }
   return(
       <>
         <div className='container mx-auto'>

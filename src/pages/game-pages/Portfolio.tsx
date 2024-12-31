@@ -13,9 +13,6 @@ function Portfolio(props: GameProps) {
           <NavLink to='/'><button onClick={props.resetGameState}>Give Up</button></NavLink>
         </div>
         <div>My Portfolio</div>
-
-        {}
-
       </>
   )
 }

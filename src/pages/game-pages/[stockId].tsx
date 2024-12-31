@@ -49,7 +49,7 @@ function StockPage(props: GameProps) {
       if(numToBuy > 0 && numToBuy * data?.close < props.gameState.money){
         const curMoney = props.gameState.money - numToBuy * data?.close;
         const curPortfolio = props.gameState.portfolio
-        curPortfolio.push({name: "", amount:numToBuy , buyPrice: data?.close})
+        curPortfolio.push({name: params.stockId!, amount:numToBuy , buyPrice: data?.close}) // used non-null assertion operator
         props.setGameState({...props.gameState, money: curMoney, portfolio: curPortfolio})
       } else{
         console.log("Invalid Amount of Money / 0 is not a valid input")
@@ -58,12 +58,12 @@ function StockPage(props: GameProps) {
   }
   console.log(props.gameState.portfolio)
   return(
-      <>
-        <div className='container mx-auto'>
-          <NavLink to='/game/dashboard'><button>Dashboard</button></NavLink>
-          <NavLink to='/game/stocks'><button>Stocks</button></NavLink>
-          <NavLink to='/game/portfolio'><button>Portfolio</button></NavLink>
-          <NavLink to='/'><button onClick={props.resetGameState}>Give Up</button></NavLink>
+      <div className="vh-100 bg-dark text-light">
+        <div className='d-flex justify-content-lg-center p-3'>
+          <NavLink to='/game/dashboard'><button className="btn btn-dark">Dashboard</button></NavLink>
+          <NavLink to='/game/stocks'><button className="btn btn-dark">Stocks</button></NavLink>
+          <NavLink to='/game/portfolio'><button className="btn btn-dark">Portfolio</button></NavLink>
+          <NavLink to='/'><button className="btn btn-dark" onClick={props.resetGameState}>Give Up</button></NavLink>
         </div>
         <div className="container">
           <h1>{params.stockId}</h1>
@@ -75,21 +75,24 @@ function StockPage(props: GameProps) {
           <p>Open: {data?.open}</p>
           <p>Volume: {data?.volume}</p>
         </div>
-        <div>
+        <div className="container d-flex justify-content-lg-center p-3">
           <form onSubmit={(e) => {
             e.preventDefault();
             buyStock(numToBuy);
           }}>
-            <input type="number" min={0} onChange={
-              (e) => {
-                setNumToBuy(Number(e.target.value));
-                console.log(e.target.value)
-              }
-            }/>
-            <button type="submit">Buy</button>
+            <div className="vstack">
+              <label className="form-label">Number of Stocks to Buy</label>
+              <input className="form-select-sm" type="number" min={0} onChange={
+                (e) => {
+                  setNumToBuy(Number(e.target.value));
+                  console.log(e.target.value)
+                }
+              }/>
+              <button className="btn btn-primary mt-4" type="submit">Buy</button>
+            </div>
           </form>
         </div>
-      </>
+      </div>
   )
 }
 
