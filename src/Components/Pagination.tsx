@@ -14,10 +14,10 @@ function Pagination(Props: {history: Array<string>, currPageNum: number, paginat
 
   return(
       <div className='pagination justify-content-md-center'>
-        <button disabled={!prevValid} onClick={
+        <button className="btn btn-primary col-6" disabled={!prevValid} onClick={
           () => {Props.paginate(Props.history[Props.currPageNum - 1], Props.currPageNum - 1)}
         }>Previous</button>
-        <button disabled={!nextValid} onClick={
+        <button className="btn btn-primary col-6" disabled={!nextValid} onClick={
           () => {Props.paginate(Props.history[Props.currPageNum + 1], Props.currPageNum + 1)}
         }>Next</button>
       </div>

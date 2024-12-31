@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {NavLink, useParams} from "react-router-dom";
 import {GameProps, Stock} from "../../types";
+import Navbar from "../../Components/NavBar";
 
 function StockPage(props: GameProps) {
   let params = useParams();
@@ -59,12 +60,7 @@ function StockPage(props: GameProps) {
   console.log(props.gameState.portfolio)
   return(
       <div className="vh-100 bg-dark text-light">
-        <div className='d-flex justify-content-lg-center p-3'>
-          <NavLink to='/game/dashboard'><button className="btn btn-dark">Dashboard</button></NavLink>
-          <NavLink to='/game/stocks'><button className="btn btn-dark">Stocks</button></NavLink>
-          <NavLink to='/game/portfolio'><button className="btn btn-dark">Portfolio</button></NavLink>
-          <NavLink to='/'><button className="btn btn-dark" onClick={props.resetGameState}>Give Up</button></NavLink>
-        </div>
+        <Navbar resetGameState={props.resetGameState}/>
         <div className="container">
           <h1>{params.stockId}</h1>
           <p>Date: {data?.date}</p>

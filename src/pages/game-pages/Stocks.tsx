@@ -3,12 +3,13 @@ import {NavLink} from "react-router-dom";
 import Pagination from "../../Components/Pagination";
 import './Stocks.css';
 import {GameProps, StockInfo} from "../../types";
+import Navbar from "../../Components/NavBar";
 
 function Stocks(props: GameProps) {
   const [options, setOptions] = useState<Array<StockInfo>>();
   const [loading, setLoading] = useState(false);
   const [currentPageNum, setCurrentPageNum] = useState(0);
-  const [stocksPerPage, setStocksPerPage] = useState(25);
+  const [stocksPerPage, setStocksPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(`https://api.polygon.io/v3/reference/tickers?market=stocks&active=true&limit=${stocksPerPage}&apiKey=${process.env.REACT_APP_POLYGONIO_API_KEY}`)
   const [history, setHistory] = useState<Array<string>>([`https://api.polygon.io/v3/reference/tickers?market=stocks&active=true&limit=${stocksPerPage}&apiKey=${process.env.REACT_APP_POLYGONIO_API_KEY}`])
 
@@ -45,47 +46,44 @@ function Stocks(props: GameProps) {
   }
 
   return(
-      <>
-        <div className='container mx-auto'>
-          <NavLink to='/game/dashboard'><button>Dashboard</button></NavLink>
-          <NavLink to='/game/stocks'><button>Stocks</button></NavLink>
-          <NavLink to='/game/portfolio'><button>Portfolio</button></NavLink>
-          <NavLink to='/'><button onClick={props.resetGameState}>Give Up</button></NavLink>
+      <div className="vh-100 bg-dark text-light">
+        <div className="container">
+          <Navbar resetGameState={props.resetGameState} />
+          <div>
+            <label>STOCKS</label>
+            <table className="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Ticker</th>
+                  <th>Currency</th>
+                  <th>Market</th>
+                  <th>Exchange</th>
+                </tr>
+              </thead>
+              <tbody>
+              {options?.map((stock) => {
+                return(
+                    <tr key={stock.id}>
+                      <td><NavLink to={`/game/stocks/${stock.id}`}>{stock.name}</NavLink></td>
+                      <td>{stock.ticker}</td>
+                      <td>{stock.currency}</td>
+                      <td>{stock.market}</td>
+                      <td>{stock.exchange}</td>
+                    </tr>
+                )
+              })}
+              </tbody>
+            </table>
+            <Pagination history={history} currPageNum={currentPageNum} paginate={paganate}/>
+            <select value={stocksPerPage} onChange={() => {}}>
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+            </select>
+          </div>
         </div>
-        <div className='container'>
-          <label>STOCKS</label>
-          <table className="table table-striped table-bordered">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Ticker</th>
-                <th>Currency</th>
-                <th>Market</th>
-                <th>Exchange</th>
-              </tr>
-            </thead>
-            <tbody>
-            {options?.map((stock) => {
-              return(
-                  <tr key={stock.id}>
-                    <td><NavLink to={`/game/stocks/${stock.id}`}>{stock.name}</NavLink></td>
-                    <td>{stock.ticker}</td>
-                    <td>{stock.currency}</td>
-                    <td>{stock.market}</td>
-                    <td>{stock.exchange}</td>
-                  </tr>
-              )
-            })}
-            </tbody>
-          </table>
-          <Pagination history={history} currPageNum={currentPageNum} paginate={paganate}/>
-          <select value={stocksPerPage} onChange={() => {}}>
-            <option value={10}>10</option>
-            <option value={25}>25</option>
-            <option value={50}>50</option>
-          </select>
-        </div>
-      </>
+      </div>
   )
 }
 

@@ -1,5 +1,5 @@
 import './App.css';
-import {BrowserRouter, Routes, Route, NavLink} from "react-router-dom";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Home from "./pages/Home"
 import Stocks from "./pages/game-pages/Stocks";
 import Portfolio from "./pages/game-pages/Portfolio";
