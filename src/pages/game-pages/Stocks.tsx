@@ -50,7 +50,7 @@ function Stocks(props: GameProps) {
           <NavLink to='/game/dashboard'><button>Dashboard</button></NavLink>
           <NavLink to='/game/stocks'><button>Stocks</button></NavLink>
           <NavLink to='/game/portfolio'><button>Portfolio</button></NavLink>
-          <NavLink to='/'><button>Give Up</button></NavLink>
+          <NavLink to='/'><button onClick={props.resetGameState}>Give Up</button></NavLink>
         </div>
         <div className='container'>
           <label>STOCKS</label>

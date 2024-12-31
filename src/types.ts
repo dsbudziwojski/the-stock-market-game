@@ -7,6 +7,7 @@ export interface GameInfo {
 export interface GameProps {
   gameState:GameInfo,
   setGameState: (curGame: GameInfo) => void,
+  resetGameState: () => void,
 }
 
 export interface Stock {

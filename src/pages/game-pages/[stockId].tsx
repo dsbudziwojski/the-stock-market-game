@@ -46,12 +46,15 @@ function StockPage(props: GameProps) {
     if(data.date === "N/a"){
       alert("Invalid Request")
     } else{
-       const curMoney = props.gameState.money - numToBuy * data?.close;
-       const curPortfolio = props.gameState.portfolio
-       curPortfolio.push({name: "", amount:numToBuy , buyPrice: data?.close})
-       props.setGameState({...props.gameState, money: curMoney, portfolio: curPortfolio})
+      if(numToBuy * data?.close < props.gameState.money){
+        const curMoney = props.gameState.money - numToBuy * data?.close;
+        const curPortfolio = props.gameState.portfolio
+        curPortfolio.push({name: "", amount:numToBuy , buyPrice: data?.close})
+        props.setGameState({...props.gameState, money: curMoney, portfolio: curPortfolio})
+      } else{
+        console.log("Invalid Amount of Money")
+      }
     }
-    console.log(numToBuy);
   }
   console.log(props.gameState.portfolio)
   return(
@@ -60,7 +63,7 @@ function StockPage(props: GameProps) {
           <NavLink to='/game/dashboard'><button>Dashboard</button></NavLink>
           <NavLink to='/game/stocks'><button>Stocks</button></NavLink>
           <NavLink to='/game/portfolio'><button>Portfolio</button></NavLink>
-          <NavLink to='/'><button>Give Up</button></NavLink>
+          <NavLink to='/'><button onClick={props.resetGameState}>Give Up</button></NavLink>
         </div>
         <div className="container">
           <h1>{params.stockId}</h1>

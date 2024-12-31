@@ -13,14 +13,19 @@ function App() {
   const gameDate = new Date(2024, 1, 1).toJSON().slice(0, 10);
   const [gameState, setGameState] = useState<GameInfo>({money: 100000, date: gameDate, portfolio:[]})
 
+  function endGame(){
+    setGameState({money: 100000, date: gameDate, portfolio:[]});
+    console.log("User Gave Up. Reset Game.")
+  }
+
   return (
       <BrowserRouter>
         <Routes>
-          <Route path='/game' element={<Game gameState={gameState} setGameState={setGameState}/>}/>
-          <Route path='/game/stocks' element={<Stocks gameState={gameState} setGameState={setGameState}/>}/>
-          <Route path='/game/portfolio' element={<Portfolio gameState={gameState} setGameState={setGameState}/>}/>
-          <Route path='/game/dashboard' element={<Dashboard gameState={gameState} setGameState={setGameState}/>} />
-          <Route path='/game/stocks/:stockId' element={<StockPage gameState={gameState} setGameState={setGameState}/>}/>
+          <Route path='/game' element={<Game gameState={gameState} setGameState={setGameState} resetGameState={endGame}/>}/>
+          <Route path='/game/stocks' element={<Stocks gameState={gameState} setGameState={setGameState} resetGameState={endGame}/>}/>
+          <Route path='/game/portfolio' element={<Portfolio gameState={gameState} setGameState={setGameState} resetGameState={endGame}/>}/>
+          <Route path='/game/dashboard' element={<Dashboard gameState={gameState} setGameState={setGameState} resetGameState={endGame}/>} />
+          <Route path='/game/stocks/:stockId' element={<StockPage gameState={gameState} setGameState={setGameState} resetGameState={endGame}/>}/>
           <Route path='/' element={<Home />}/>
         </Routes>
       </BrowserRouter>
