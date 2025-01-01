@@ -11,10 +11,10 @@ import {GameInfo} from "./types";
 
 function App() {
   const gameDate = new Date(2024, 1, 1).toJSON().slice(0, 10);
-  const [gameState, setGameState] = useState<GameInfo>({money: 100000, date: gameDate, portfolio:[]})
+  const [gameState, setGameState] = useState<GameInfo>({money: 100000, date: gameDate, portfolio: new Map()})
 
   function endGame(){
-    setGameState({money: 100000, date: gameDate, portfolio:[]});
+    setGameState({money: 100000, date: gameDate, portfolio: new Map()});
     console.log("User Gave Up. Reset Game.")
   }
 

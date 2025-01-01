@@ -50,9 +50,9 @@ function Stocks(props: GameProps) {
         <div className="container">
           <Navbar resetGameState={props.resetGameState} />
           <div>
-            <label>STOCKS</label>
-            <table className="table table-striped table-bordered">
-              <thead>
+            <h1>STOCKS</h1>
+            <table className="table table-bordered table-striped table-dark">
+              <thead className="table-dark">
                 <tr>
                   <th>Name</th>
                   <th>Ticker</th>
@@ -65,7 +65,7 @@ function Stocks(props: GameProps) {
               {options?.map((stock) => {
                 return(
                     <tr key={stock.id}>
-                      <td><NavLink to={`/game/stocks/${stock.id}`}>{stock.name}</NavLink></td>
+                      <td className="nav-item"><NavLink className="nav-link text-primary" to={`/game/stocks/${stock.id}`}>{stock.name}</NavLink></td>
                       <td>{stock.ticker}</td>
                       <td>{stock.currency}</td>
                       <td>{stock.market}</td>
@@ -76,7 +76,7 @@ function Stocks(props: GameProps) {
               </tbody>
             </table>
             <Pagination history={history} currPageNum={currentPageNum} paginate={paganate}/>
-            <select value={stocksPerPage} onChange={() => {}}>
+            <select className="mt-3" value={stocksPerPage} onChange={() => {}}>
               <option value={10}>10</option>
               <option value={25}>25</option>
               <option value={50}>50</option>

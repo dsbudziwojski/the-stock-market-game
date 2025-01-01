@@ -1,8 +1,9 @@
 export interface GameInfo {
   money: number,
-  date: string,
-  portfolio: Array<{name: string, amount: number, buyPrice: number}>
+  date: string
+  portfolio: Map<string, Array<{amount: number, buyPrice: number}>>,
 }
+
 
 export interface GameProps {
   gameState:GameInfo,

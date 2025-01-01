@@ -2,9 +2,10 @@ import React, {useState, useEffect} from 'react'
 import {NavLink, useParams} from "react-router-dom";
 import {GameProps, Stock} from "../../types";
 import Navbar from "../../Components/NavBar";
+import {type} from "os";
 
 function StockPage(props: GameProps) {
-  let params = useParams();
+  let params = useParams<{stockId:string}>();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<Stock>({
     afterHours: 0,
@@ -42,16 +43,32 @@ function StockPage(props: GameProps) {
     fetchData();
   }, []);
 
-  function buyStock(numToBuy: number){
+  const stockId = params.stockId;
+  if(!stockId) {
+    return <p>Loading</p>
+  }
+
+  function buyStock(stockId: string, numToBuy: number){
     // check if the data is not in default state
     if(data.date === "N/a"){
       alert("Invalid Request")
     } else{
       if(numToBuy > 0 && numToBuy * data?.close < props.gameState.money){
         const curMoney = props.gameState.money - numToBuy * data?.close;
-        const curPortfolio = props.gameState.portfolio
-        curPortfolio.push({name: params.stockId!, amount:numToBuy , buyPrice: data?.close}) // used non-null assertion operator
-        props.setGameState({...props.gameState, money: curMoney, portfolio: curPortfolio})
+        const curPortfolio = props.gameState.portfolio;
+        // check if stock is not previously in portfolio
+        const temp = curPortfolio.get(stockId)
+        if(temp === undefined){
+          // add stock to portfolio array
+          const temp: Array<{amount: number, buyPrice: number}> = []
+          temp.push(({amount: numToBuy, buyPrice: data?.close}))
+          curPortfolio.set(stockId, temp);
+        } else { // stock is previously in portfolio
+          // although multiple situations arise, we are using FIFO
+          temp?.push({amount: numToBuy, buyPrice: data?.close});
+          curPortfolio.set(stockId, temp);
+        }
+        props.setGameState({date: props.gameState.date, money: curMoney, portfolio: curPortfolio})
       } else{
         console.log("Invalid Amount of Money / 0 is not a valid input")
       }
@@ -74,7 +91,7 @@ function StockPage(props: GameProps) {
         <div className="container d-flex justify-content-lg-center p-3">
           <form onSubmit={(e) => {
             e.preventDefault();
-            buyStock(numToBuy);
+            buyStock(stockId, numToBuy);
           }}>
             <div className="vstack">
               <label className="form-label">Number of Stocks to Buy</label>
