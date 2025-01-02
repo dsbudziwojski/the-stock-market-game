@@ -1,21 +1,19 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
 import {GameProps} from "../../types";
+import Navbar from "../../Components/NavBar";
 
 function Dashboard(props: GameProps){
   function nextDay() {
     //TODO
   }
   return(
-      <>
+      <div className="vh-100 bg-dark text-light">
+        <Navbar resetGameState={props.resetGameState}/>
         <div className='container mx-auto'>
-          <NavLink to='/game/dashboard'><button>Dashboard</button></NavLink>
-          <NavLink to='/game/stocks'><button>Stocks</button></NavLink>
-          <NavLink to='/game/portfolio'><button>Portfolio</button></NavLink>
-          <NavLink to='/'><button onClick={props.resetGameState}>Give Up</button></NavLink>
+          <h1>Dashboard</h1>
         </div>
-        <div>Dashboard</div>
-      </>
+      </div>
   )
 }
 

@@ -8,13 +8,14 @@ import StockPage from "./pages/game-pages/[stockId]";
 import Game from "./pages/Game";
 import {useState} from "react";
 import {GameInfo} from "./types";
+import stocks from "./pages/game-pages/Stocks";
 
 function App() {
   const gameDate = new Date(2024, 1, 1).toJSON().slice(0, 10);
-  const [gameState, setGameState] = useState<GameInfo>({money: 100000, date: gameDate, portfolio: new Map()})
+  const [gameState, setGameState] = useState<GameInfo>({money: 100000, date: gameDate, portfolio: new Map(), stocks: new Set()})
 
   function endGame(){
-    setGameState({money: 100000, date: gameDate, portfolio: new Map()});
+    setGameState({money: 100000, date: gameDate, portfolio: new Map(), stocks: new Set()});
     console.log("User Gave Up. Reset Game.")
   }
 

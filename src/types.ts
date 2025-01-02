@@ -2,6 +2,7 @@ export interface GameInfo {
   money: number,
   date: string
   portfolio: Map<string, Array<{amount: number, buyPrice: number}>>,
+  stocks: Set<string>
 }
 
 

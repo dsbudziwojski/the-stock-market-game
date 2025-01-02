@@ -56,6 +56,7 @@ function StockPage(props: GameProps) {
       if(numToBuy > 0 && numToBuy * data?.close < props.gameState.money){
         const curMoney = props.gameState.money - numToBuy * data?.close;
         const curPortfolio = props.gameState.portfolio;
+        const curStocks = props.gameState.stocks
         // check if stock is not previously in portfolio
         const temp = curPortfolio.get(stockId)
         if(temp === undefined){
@@ -63,12 +64,13 @@ function StockPage(props: GameProps) {
           const temp: Array<{amount: number, buyPrice: number}> = []
           temp.push(({amount: numToBuy, buyPrice: data?.close}))
           curPortfolio.set(stockId, temp);
+          curStocks.add(stockId)
         } else { // stock is previously in portfolio
           // although multiple situations arise, we are using FIFO
           temp?.push({amount: numToBuy, buyPrice: data?.close});
           curPortfolio.set(stockId, temp);
         }
-        props.setGameState({date: props.gameState.date, money: curMoney, portfolio: curPortfolio})
+        props.setGameState({...props.gameState, money: curMoney, portfolio: curPortfolio, stocks: curStocks})
       } else{
         console.log("Invalid Amount of Money / 0 is not a valid input")
       }

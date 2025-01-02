@@ -1,19 +1,30 @@
 import React from 'react'
 import {NavLink} from "react-router-dom";
 import {GameProps} from "../../types";
+import Navbar from "../../Components/NavBar";
 
 function Portfolio(props: GameProps) {
 
   return(
-      <>
-        <div className='container mx-auto'>
-          <NavLink to='/game/dashboard'><button>Dashboard</button></NavLink>
-          <NavLink to='/game/stocks'><button>Stocks</button></NavLink>
-          <NavLink to='/game/portfolio'><button>Portfolio</button></NavLink>
-          <NavLink to='/'><button onClick={props.resetGameState}>Give Up</button></NavLink>
+      <div className="vh-100 bg-dark text-light">
+        <Navbar resetGameState={props.resetGameState}/>
+        <div className='container'>
+          <h1>PORTFOLIO</h1>
+          <table className="table table-bordered table-striped table-dark">
+            <thead>
+              <tr>
+                <th>Stocks</th>
+                <th>Ticker</th>
+                <th>Number of Shares Owned</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+            {/*TODO*/}
+            </tbody>
+          </table>
         </div>
-        <div>My Portfolio</div>
-      </>
+      </div>
   )
 }
 
